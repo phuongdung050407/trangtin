@@ -7,15 +7,15 @@ var BaiViet = require('../models/baiviet');
 // GET: Trang chủ
 router.get('/', async (req, res) => {
 	var cm = await ChuDe.find();
-	
-	var bv = await BaiViet.find({ KiemDuyet : 1})
-		.sort({NgayDang: -1})
+
+	var bv = await BaiViet.find({ KiemDuyet: 1 })
+		.sort({ NgayDang: -1 })
 		.populate('ChuDe')
 		.populate('TaiKhoan')
 		.limit(12).exec();
-	
-	var xnn = await BaiViet.find({KiemDuyet: 1})
-		.sort({LuotXem: -1})
+
+	var xnn = await BaiViet.find({ KiemDuyet: 1 })
+		.sort({ LuotXem: -1 })
 		.populate('ChuDe')
 		.populate('TaiKhoan')
 		.limit(3).exec();
@@ -37,14 +37,14 @@ router.get('/baiviet/chude/:id', async (req, res) => {
 
 	var cd = await ChuDe.findById(id);
 
-	var bv = await BaiViet.find({KiemDuyet: 1, ChuDe: id})
-		.sort({NgayDang: -1})
+	var bv = await BaiViet.find({ KiemDuyet: 1, ChuDe: id })
+		.sort({ NgayDang: -1 })
 		.populate('ChuDe')
 		.populate('TaiKhoan')
 		.limit(8).exec();
 
-	var xnn = await BaiViet.find({KiemDuyet: 1, ChuDe: id})
-		.sort({LuotXem: -1})
+	var xnn = await BaiViet.find({ KiemDuyet: 1, ChuDe: id })
+		.sort({ LuotXem: -1 })
 		.populate('ChuDe')
 		.populate('TaiKhoan')
 		.limit(3).exec();
@@ -69,8 +69,8 @@ router.get('/baiviet/chitiet/:id', async (req, res) => {
 		.populate('ChuDe')
 		.populate('TaiKhoan').exec();
 
-	var xnn = await BaiViet.find({KiemDuyet: 1})
-		.sort({LuotXem: -1})
+	var xnn = await BaiViet.find({ KiemDuyet: 1 })
+		.sort({ LuotXem: -1 })
 		.populate('ChuDe')
 		.populate('TaiKhoan')
 		.limit(3).exec();
@@ -93,14 +93,28 @@ router.get('/tinmoi', async (req, res) => {
 // POST: Kết quả tìm kiếm
 router.post('/timkiem', async (req, res) => {
 	var tukhoa = req.body.tukhoa;
-	
+
+	var cm = await ChuDe.find();
+
 	// Xử lý tìm kiếm bài viết
-	var bv = [];
-	
+	var bv = await BaiViet({
+		KiemDuyet: 1, $or: [
+			{ TieuDe: { $regex: new RegExp(tukhoa, "i") } },
+			{ TomTat: { $regex: new RegExp(tukhoa, "i") } }
+		]
+	})
+		.sort({ NgayDang: -1 })
+		.populate('ChuDe')
+		.populate('TaiKhoan')
+		.exec();
+
 	res.render('timkiem', {
-		title: 'Kết quả tìm kiếm',
+		title: 'Kết quả tìm kiếm cho: ' + tukhoa,
+		chuyenmuc: cm,
 		baiviet: bv,
-		tukhoa: tukhoa
+		xemnhieunhat: xnn,
+		tukhoa: tukhoa,
+		firstImage: firstImage
 	});
 });
 
