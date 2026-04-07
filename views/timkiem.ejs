@@ -135,56 +135,51 @@
 												</li>
 											</ul>
 										</nav>
-
-										<div class="col-md-3 ms-auto">
-											<aside class="sidebar">
-												<div class="card mb-4">
-													<div class="card-body">
-														<h4 class="card-title">Giới thiệu</h4>
-														<p class="card-text">Đọc tin tức trên trang web này sẽ giúp bạn
-															có cái nhìn khách quan
-															về cuộc sống. Đừng quên chia sẻ trang này cho toàn bộ vũ trụ
-															biết nhé. Mến yêu.</p>
-													</div>
-												</div>
-											</aside>
-											<aside class="sidebar sidebar-sticky">
-												<div class="card mb-4">
-													<div class="card-body">
-														<h4 class="card-title">Thẻ</h4>
-														<% if(typeof chuyenmuc !=="undefined" ) { chuyenmuc.forEach(cd=>
-															{ %>
-															<a class="btn btn-light btn-sm mb-1"
-																href="/baiviet/chude/<%= cd._id %>">
-																<%= cd.TenChuDe %>
-															</a>
-															<% }); } %>
-													</div>
-												</div>
-												<div class="card mb-4">
-													<div class="card-body">
-														<h4 class="card-title">Xem nhiều nhất</h4>
-														<% if(typeof xemnhieunhat !=="undefined" ) {
-															xemnhieunhat.forEach(bv=> { %>
-															<a href="/baiviet/chitiet/<%= bv._id %>"
-																class="d-inline-block mt-3">
-																<h4 class="h6">
-																	<%= bv.TieuDe %>
-																</h4>
-																<img class="card-img"
-																	src="<%- firstImage(bv.NoiDung) %>" alt="" />
-															</a>
-															<time class="timeago" datetime="<%= bv.NgayDang %>"></time>
-															thuộc <%= bv.ChuDe.TenChuDe %>
-																<% }); } %>
-													</div>
-												</div>
-											</aside>
-										</div>
-
-
-
 				</div>
+				<div class="col-md-3 ms-auto">
+					<aside class="sidebar">
+						<div class="card mb-4">
+							<div class="card-body">
+								<h4 class="card-title">Giới thiệu</h4>
+								<p class="card-text">Đọc tin tức trên trang web này sẽ giúp bạn
+									có cái nhìn khách quan
+									về cuộc sống. Đừng quên chia sẻ trang này cho toàn bộ vũ trụ
+									biết nhé. Mến yêu.</p>
+							</div>
+						</div>
+					</aside>
+					<aside class="sidebar sidebar-sticky">
+						<div class="card mb-4">
+							<div class="card-body">
+								<h4 class="card-title">Thẻ</h4>
+								<% if(typeof chuyenmuc !=="undefined" ) { chuyenmuc.forEach(cd=>
+									{ %>
+									<a class="btn btn-light btn-sm mb-1" href="/baiviet/chude/<%= cd._id %>">
+										<%= cd.TenChuDe %>
+									</a>
+									<% }); } %>
+							</div>
+						</div>
+						<div class="card mb-4">
+							<div class="card-body">
+								<h4 class="card-title">Xem nhiều nhất</h4>
+								<% if(typeof xemnhieunhat !=="undefined" ) { xemnhieunhat.forEach(bv=> { %>
+									<a href="/baiviet/chitiet/<%= bv._id %>" class="d-inline-block mt-3">
+										<h4 class="h6">
+											<%= bv.TieuDe %>
+										</h4>
+										<img class="card-img" src="<%- firstImage(bv.NoiDung) %>" alt="" />
+									</a>
+									<time class="timeago" datetime="<%= bv.NgayDang %>"></time>
+									thuộc <%= bv.ChuDe.TenChuDe %>
+										<% }); } %>
+							</div>
+						</div>
+					</aside>
+				</div>
+
+
+
 			</div>
 		</div>
 	</main>
