@@ -96,11 +96,13 @@ router.post('/timkiem', async (req, res) => {
 
 	var cm = await ChuDe.find();
 
+	var cd = await ChuDe.findById(id);
+
 	// Xử lý tìm kiếm bài viết
 	var bv = await BaiViet({
-		KiemDuyet: 1, $or: [
+		KiemDuyet: 1, ChuDe: id, $or: [
 			{ TieuDe: { $regex: new RegExp(tukhoa, "i") } },
-			{ TomTat: { $regex: new RegExp(tukhoa, "i") } }
+			{ TenChuDe: { $regex: new RegExp(tukhoa, "i") } }
 		]
 	})
 		.sort({ NgayDang: -1 })
@@ -111,9 +113,9 @@ router.post('/timkiem', async (req, res) => {
 	res.render('timkiem', {
 		title: 'Kết quả tìm kiếm cho: ' + tukhoa,
 		chuyenmuc: cm,
+		chude: cd,
 		baiviet: bv,
 		xemnhieunhat: xnn,
-		tukhoa: tukhoa,
 		firstImage: firstImage
 	});
 });
