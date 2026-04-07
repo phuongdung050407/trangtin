@@ -92,6 +92,7 @@ router.get('/tinmoi', async (req, res) => {
 
 // POST: Kết quả tìm kiếm
 router.post('/timkiem', async (req, res) => {
+	// 1. Lấy từ khóa từ form (input name="tukhoa")
 	var tukhoa = req.body.tukhoa;
 
 	// 2. Lấy danh sách chuyên mục (để hiển thị trong dropdown menu và sidebar "Thẻ")
@@ -100,7 +101,11 @@ router.post('/timkiem', async (req, res) => {
 	// 3. Tìm kiếm bài viết dựa trên tiêu đề (TieuDe) hoặc tóm tắt (nếu có)
 	// Sử dụng RegExp với tùy chọn 'i' để không phân biệt chữ hoa/thường
 	var bv = await BaiViet.find({
-		KiemDuyet: 1, TieuDe: { $regex: new RegExp(tukhoa, "i") }
+		KiemDuyet: 1,
+		$or: [
+			{ TieuDe: { $regex: new RegExp(tukhoa, "i") } },
+			{ TomTat: { $regex: new RegExp(tukhoa, "i") } } // Tìm thêm trong tóm tắt để kết quả phong phú hơn
+		]
 	})
 		.sort({ NgayDang: -1 }) // Bài mới nhất lên đầu
 		.populate('ChuDe')
