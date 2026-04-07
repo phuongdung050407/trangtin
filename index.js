@@ -32,20 +32,20 @@ app.use(session({
 app.use((req, res, next) => {
 	// Chuyển biến session thành biến cục bộ
 	res.locals.session = req.session;
-	
+
 	// Lấy thông báo (lỗi, thành công) của trang trước đó (nếu có)
 	var err = req.session.error;
 	var msg = req.session.success;
-	
+
 	// Xóa session sau khi đã truyền qua biến trung gian
 	delete req.session.error;
 	delete req.session.success;
-	
+
 	// Gán thông báo (lỗi, thành công) vào biến cục bộ
 	res.locals.message = '';
 	if (err) res.locals.message = '<span class="text-danger">' + err + '</span>';
 	if (msg) res.locals.message = '<span class="text-success">' + msg + '</span>';
-	
+
 	next();
 });
 
@@ -56,5 +56,5 @@ app.use('/taikhoan', taikhoanRouter);
 app.use('/baiviet', baivietRouter);
 
 app.listen(3000, () => {
-	console.log('Server is running at http://127.0.0.1:3000');
+	console.log('Server is running at https://trangtin-jfx5.onrender.com');
 });
